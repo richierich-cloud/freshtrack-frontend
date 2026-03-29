@@ -133,7 +133,11 @@ function AuthScreen({ onLogin }) {
       const data = await res.json();
       if (data.error || data.error_description) throw new Error(data.error_description || data.error);
       if (mode === "signup") { setErr("✅ Check your email to confirm!"); setLoading(false); return; }
-      onLogin(data);
+      if (data.access_token) {
+  onLogin(data);
+} else {
+  setErr("Login failed. Please try again.");
+}
     } catch (e) { setErr(e.message); }
     setLoading(false);
   };
